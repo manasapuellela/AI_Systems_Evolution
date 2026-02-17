@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manasa Surya - Analytics Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent-green: #3fb950;
+            --accent-blue: #58a6ff;
+            --accent-purple: #bc8cff;
+            --accent-orange: #ff9b5e;
+            --accent-pink: #ff7eb6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Terminal-style cursor */
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--accent-green);
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        /* Code-style container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Terminal header */
+        .terminal-header {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px 6px 0 0;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .terminal-title {
+            margin-left: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Main terminal content */
+        .terminal-body {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Command prompt style */
+        .prompt {
+            color: var(--accent-green);
+            margin-right: 0.5rem;
+        }
+
+        .command {
+            color: var(--accent-blue);
+        }
+
+        /* Hero section */
+        .hero {
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 50%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero .title-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .role {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .hero .separator {
+            color: var(--border);
+        }
+
+        .hero .location {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .bio {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            line-height: 1.8;
+        }
+
+        .contact-bar {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-item:hover {
+            color: var(--accent-blue);
+        }
+
+        .contact-icon {
+            color: var(--accent-green);
+        }
+
+        /* Stats grid - GitHub contribution style */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .stat-box:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Section headers - code comment style */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-header::before {
+            content: '//';
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Experience cards - diff style */
+        .experience-item {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-blue);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.2s;
+        }
+
+        .experience-item:hover {
+            border-left-color: var(--accent-green);
+            transform: translateX(4px);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .company-info h3 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .role-title {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .location-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .date-range {
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .achievements {
+            list-style: none;
+        }
+
+        .achievements li {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .achievements li::before {
+            content: '+';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        /* Skills - tag style */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .skill-category h3 {
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent-green);
+            background: var(--bg-secondary);
+        }
+
+        /* Certifications - badge style */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .cert-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+        }
+
+        .cert-card:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-2px);
+        }
+
+        .cert-badge {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-pink) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .cert-name {
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Education */
+        .education-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .education-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+
+        .education-info h3 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .education-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-content {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .footer-content .prompt {
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .experience-header {
+                flex-direction: column;
+            }
+
+            .date-range {
+                align-self: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .terminal-body {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Code block style for highlights */
+        .highlight {
+            background: var(--bg-primary);
+            border-left: 2px solid var(--accent-green);
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            color: var(--accent-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Terminal Window -->
+        <div class="terminal-header">
+            <div class="terminal-dots">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="terminal-title">manasa@analytics-engineer: ~/portfolio</div>
+        </div>
+
+        <div class="terminal-body">
+            <!-- Hero -->
+            <section class="hero">
+                <div style="margin-bottom: 1rem;">
+                    <span class="prompt">$</span>
+                    <span class="command">whoami</span>
+                </div>
+                <h1>Manasa Surya</h1>
+                <div class="title-line">
+                    <span class="role">Analytics Engineer</span>
+                    <span class="separator">|</span>
+                    <span class="location">Data Pipeline Architect</span>
+                </div>
+                <p class="bio">
+                    Senior Data Analytics Engineer with 5+ years of experience building production-grade analytics data products. Strong expertise in advanced SQL and Python, with hands-on experience developing dbt-powered transformations on Databricks and AWS. Partner closely with product and engineering teams to deliver self-serve dashboards and decision-critical insights used in weekly leadership reviews.
+                </p>
+                <div class="contact-bar">
+                    <a href="mailto:manasasurya389@gmail.com" class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>manasasurya389@gmail.com</span>
+                    </a>
+                    <a href="tel:+17207053077" class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>+1 720-705-3077</span>
+                    </a>
+                    <a href="#" class="contact-item">
+                        <span class="contact-icon">💼</span>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" class="contact-item">
+                        <span class="contact-icon">💻</span>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Stats -->
+            <div style="margin: 2rem 0 1rem;">
+                <span class="prompt">$</span>
+                <span class="command">cat ./impact-metrics.json</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">5+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">40%</div>
+                    <div class="stat-label">Query Time Reduction</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">30%</div>
+                    <div class="stat-label">Discrepancy Reduction</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Key Certifications</div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="section-header">
+                <h2>experience.log</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="company-info">
+                        <h3>Capital One</h3>
+                        <div class="role-title">Senior Data Analyst / Analytics Engineer</div>
+                        <div class="location-text">Remote, USA</div>
+                    </div>
+                    <div class="date-range">Sep 2024 - Present</div>
+                </div>
+                <ul class="achievements">
+                    <li>Reduced analytical query execution time by <span class="highlight">40%</span> by refactoring complex SQL using dbt Cloud and Spark SQL on Databricks with Delta Lake tables during a Snowflake-to-Databricks migration</li>
+                    <li>Built and owned self-serve AWS QuickSight dashboards backed by curated Redshift and Databricks models, actively used in weekly leadership and operations reviews to monitor cardholder behavior, fraud signals, and portfolio health</li>
+                    <li>Increased trust in risk and regulatory metrics by designing reconciliation logic and acceptance tests within SQL transformations aligned to data management standards</li>
+                    <li>Owned analytics delivery end-to-end, from problem framing and metric definition to SQL modeling, validation, and insight narratives, resulting in recommendations adopted by product and business stakeholders</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="company-info">
+                        <h3>Experian</h3>
+                        <div class="role-title">Senior Data Analytics Engineer</div>
+                        <div class="location-text">Remote, USA</div>
+                    </div>
+                    <div class="date-range">Aug 2023 - Jul 2024</div>
+                </div>
+                <ul class="achievements">
+                    <li>Defined scalable analytics architectures and built analytics-ready datasets using advanced SQL and Python to support credit risk evaluation, reducing downstream discrepancies by <span class="highlight">30%</span></li>
+                    <li>Designed and delivered self-serve dashboards and operational scorecards consumed by product and risk teams, reducing manual reporting by <span class="highlight">40%</span></li>
+                    <li>Implemented reconciliation logic, acceptance checks, and edge-case handling across transactional and event-level data to support audit-ready, compliance-aligned credit and customer analytics</li>
+                    <li>Accelerated insight delivery by owning end-to-end analyses from problem framing to recommendations, translating ambiguous business questions into actionable findings</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="company-info">
+                        <h3>Colorado Children's Hospital</h3>
+                        <div class="role-title">Data Analyst</div>
+                        <div class="location-text">Colorado, USA</div>
+                    </div>
+                    <div class="date-range">Jan 2022 - May 2023</div>
+                </div>
+                <ul class="achievements">
+                    <li>Improved stakeholder comprehension by <span class="highlight">30%</span> by translating complex clinical and operational data into clear, self-serve Power BI and Tableau dashboards used by leadership</li>
+                    <li>Increased reporting reliability by building SQL-based fact and dimension pipelines, improving data retrieval efficiency by <span class="highlight">20%</span> for research and operational analytics</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="company-info">
+                        <h3>Accenture Solutions Pvt. Ltd.</h3>
+                        <div class="role-title">Data Analyst</div>
+                        <div class="location-text">Pune, India</div>
+                    </div>
+                    <div class="date-range">Aug 2020 - Aug 2021</div>
+                </div>
+                <ul class="achievements">
+                    <li>Reduced data processing time by <span class="highlight">20%</span> by directly owning SQL-driven ETL pipelines, optimizing transformation logic across enterprise datasets, and establishing CI/CD pipelines</li>
+                    <li>Increased reporting efficiency by <span class="highlight">30%</span> by integrating Python and SQL pipelines into Power BI, eliminating manual data preparation and improving insight turnaround</li>
+                </ul>
+            </div>
+
+            <!-- Skills -->
+            <div class="section-header">
+                <h2>tech-stack.config</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Analytics & Data Modeling</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Advanced SQL</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Analytics Engineering</span>
+                        <span class="skill-tag">Metrics Definitions</span>
+                        <span class="skill-tag">Acceptance Testing</span>
+                        <span class="skill-tag">Reconciliation Logic</span>
+                        <span class="skill-tag">Data Quality Frameworks</span>
+                        <span class="skill-tag">Dimensional Modeling</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Business Intelligence</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AWS QuickSight</span>
+                        <span class="skill-tag">Tableau</span>
+                        <span class="skill-tag">Power BI</span>
+                        <span class="skill-tag">Self-Serve Dashboards</span>
+                        <span class="skill-tag">Executive Reporting</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Data Platforms</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Databricks</span>
+                        <span class="skill-tag">Snowflake</span>
+                        <span class="skill-tag">Amazon Redshift</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">Apache Spark</span>
+                        <span class="skill-tag">Delta Lake</span>
+                        <span class="skill-tag">dbt Cloud</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Programming & Processing</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">Spark SQL</span>
+                        <span class="skill-tag">Notebooks</span>
+                        <span class="skill-tag">Data Validation Scripts</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Cloud & DevOps</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AWS S3</span>
+                        <span class="skill-tag">EC2</span>
+                        <span class="skill-tag">EMR</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Jira</span>
+                        <span class="skill-tag">Confluence</span>
+                        <span class="skill-tag">CI/CD Pipelines</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Analytics Methods</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Time Series Forecasting</span>
+                        <span class="skill-tag">A/B Testing</span>
+                        <span class="skill-tag">Statistical Analysis</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="section-header">
+                <h2>certifications.md</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="cert-grid">
+                <a href="https://credentials.databricks.com/profile/manasasurya389/wallet" target="_blank" class="cert-card">
+                    <div class="cert-badge">🎓</div>
+                    <div class="cert-name">Databricks Certified Machine Learning Professional</div>
+                </a>
+                <a href="https://www.credly.com/badges/aws-certified-cloud-practitioner" target="_blank" class="cert-card">
+                    <div class="cert-badge">☁️</div>
+                    <div class="cert-name">AWS Certified Cloud Practitioner</div>
+                </a>
+                <a href="https://www.coursera.org/account/accomplishments/professional-cert/google-data-analytics" target="_blank" class="cert-card">
+                    <div class="cert-badge">📊</div>
+                    <div class="cert-name">Google Data Analytics Professional</div>
+                </a>
+            </div>
+
+            <!-- Education -->
+            <div class="section-header">
+                <h2>education.txt</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="education-box">
+                <div class="education-icon">🎓</div>
+                <div class="education-info">
+                    <h3>University of Colorado</h3>
+                    <p>Master of Science, Computer Information Systems · May 2023</p>
+                </div>
+            </div>
+            
+            <div class="education-box" style="margin-top: 1rem;">
+                <div class="education-icon">🎓</div>
+                <div class="education-info">
+                    <h3>Jawaharlal Technological University, Hyderabad</h3>
+                    <p>Bachelor of Technology, Computer Science · May 2020</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <span class="prompt">$</span>
+                <span>© 2026 Manasa Surya · Analytics Engineer · Building production-grade analytics data products</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
